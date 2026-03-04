@@ -125,10 +125,10 @@ const person = {
 };
 
 // Normalize age using the same pattern as the training data
-// example: min_age = 25, max_age = 40, so (29 - 25) / (40 - 29) = 0.36
+// example: min_age = 25, max_age = 40, so (29 - 25) / (40 - 25) = 0.26
 
 const personNormalizedTensor = [
-  [0.36, 0, 0, 1, 0, 0, 1], // Kennedy
+  [0.26, 0, 0, 1, 0, 0, 1], // Kennedy
 ];
 
 const predictions = await predict(model, personNormalizedTensor);
