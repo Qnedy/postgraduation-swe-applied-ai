@@ -96,7 +96,7 @@ function encodeProduct(product, context) {
   ]);
 
   const age = tf.tensor1d([
-    context.normalizedProductAveragePerAge[product.name] ?? 0.5,
+    (context.normalizedProductAveragePerAge[product.name] ?? 0.5) * WEIGHTS.age,
   ]);
 
   const category = oneHotWeighted(
@@ -263,7 +263,7 @@ async function configureNeuralNetAndTrain(trainData) {
     epochs: 100,
     batchSize: 32,
     shuffle: true,
-    callbaks: {
+    callbacks: {
       onEpochEnd: (epoch, logs) => {
         postMessage({
           type: workerEvents.trainingLog,
