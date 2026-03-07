@@ -140,21 +140,23 @@ function createTrainingData(context) {
   const inputs = [];
   const labels = [];
 
-  context.users.forEach((user) => {
-    const userVector = encodeUser(user, context).dataSync();
+  context.users
+    .filter((user) => user.purchases.length > 0)
+    .forEach((user) => {
+      const userVector = encodeUser(user, context).dataSync();
 
-    context.products.forEach((product) => {
-      const productVector = encodeProduct(product, context).dataSync();
+      context.products.forEach((product) => {
+        const productVector = encodeProduct(product, context).dataSync();
 
-      const label = user.purchases.some((purchase) =>
-        purchase.name === product.name ? 1 : 0,
-      );
+        const label = user.purchases.some((purchase) =>
+          purchase.name === product.name ? 1 : 0,
+        );
 
-      // combinar user + product
-      inputs.push([...userVector, ...productVector]);
-      labels.push(label);
+        // combinar user + product
+        inputs.push([...userVector, ...productVector]);
+        labels.push(label);
+      });
     });
-  });
 
   return {
     xs: tf.tensor2d(inputs),
@@ -299,15 +301,13 @@ async function trainModel({ users }) {
 
   const trainData = createTrainingData(context);
 
-  _model = configureNeuralNetAndTrain(trainData);
+  _model = await configureNeuralNetAndTrain(trainData);
 
-  setTimeout(() => {
-    postMessage({
-      type: workerEvents.progressUpdate,
-      progress: { progress: 100 },
-    });
-    postMessage({ type: workerEvents.trainingComplete });
-  }, 1000);
+  postMessage({
+    type: workerEvents.progressUpdate,
+    progress: { progress: 100 },
+  });
+  postMessage({ type: workerEvents.trainingComplete });
 }
 function recommend(user, ctx) {
   console.log("will recommend for user:", user);
