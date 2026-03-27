@@ -1,3 +1,54 @@
 <output id="output"></output>
 <!-- https://www.jsdelivr.com/package/npm/markdown -->
 <script src="https://cdn.jsdelivr.net/npm/markdown@0.5.0/lib/markdown.min.js"></script>
+
+<div id="app"></div>
+
+<script>
+  const output = document.getElementById("output");
+
+  const app = document.getElementById("app");
+
+  const button = document.createElement("button");
+  button.type = "button";
+  button.textContent = "Click me";
+
+  button.addEventListener("click", async () => {
+    const params = await LanguageModel.params();
+    const temperature = params.defaultTemperature;
+    const topK = params.defaultTopK;
+
+    const initialPrompts = [
+      {
+        role: "system",
+        content:
+          "Você é um assistente de IA que responde de forma clara e objetiva.",
+      },
+    ];
+
+    const question = "Quem inventou o javascript?";
+    output.innerHTML = "Generating the answer...";
+
+    const session = await LanguageModel.create({
+      expectedInputLanguage: ["pt"],
+      temperature,
+      topK,
+      initialPrompts,
+    });
+
+    const responseStream = await session.promptStreaming([
+      {
+        role: "user",
+        content: question,
+      },
+    ]);
+    output.innerHTML = "";
+    let fullAnswer = "";
+    for await (const token of responseStream) {
+      fullAnswer += token;
+      output.innerHTML = markdown.toHTML(fullAnswer);
+    }
+  });
+
+  app.appendChild(button);
+</script>
