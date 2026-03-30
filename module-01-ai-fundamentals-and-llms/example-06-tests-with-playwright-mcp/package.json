@@ -1,0 +1,11 @@
+{
+  "name": "example-06-tests-with-playwright-mcp",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "playwright test --reporter=html"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0"
+  }
+}
