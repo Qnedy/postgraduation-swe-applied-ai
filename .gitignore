@@ -1,1 +1,4 @@
 .DS_Store
+# Ignore Node.js dependencies folders anywhere in the repo
+node_modules/
+**/node_modules/
