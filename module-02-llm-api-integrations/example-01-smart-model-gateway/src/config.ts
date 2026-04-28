@@ -27,8 +27,11 @@ export const config: ModelConfig = {
 	xTitle: "SmartModelRouterGateway",
 	port: 3000,
 	models: [
+		// maior throughput
+		"nvidia/nemotron-3-nano-30b-a3b:free",
+
 		// top 4 para a listagem ordenada por preço
-		"google/gemma-4-26b-a4b-it:free"
+		"inclusionai/ling-2.6-1t:free"
 	],
 	temperature: 0.2,
 	maxTokens: 50,
