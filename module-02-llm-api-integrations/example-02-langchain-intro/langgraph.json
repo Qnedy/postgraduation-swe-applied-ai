@@ -1,0 +1,9 @@
+{
+	"node_version": "w",
+	"graphs": {
+		"agent": ""
+	},
+	"env": ".env",
+	"dependencies": "",
+	"image_distro": ""
+}
