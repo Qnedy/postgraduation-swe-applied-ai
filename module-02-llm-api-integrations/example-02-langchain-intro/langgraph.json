@@ -1,9 +1,9 @@
 {
-	"node_version": "w",
+	"node_version": "20",
 	"graphs": {
-		"agent": ""
+		"agent": "./src/graph/factory.ts:graph"
 	},
 	"env": ".env",
-	"dependencies": "",
-	"image_distro": ""
+	"dependencies": ["."],
+	"image_distro": "wolfi"
 }

@@ -7,16 +7,21 @@ console.assert(
 	"OPENROUTER_API_KEY is not set in env variables"
 );
 
-test("Router to cheapest model by default", async () => {
+test("command upper transforms messages into UPPERCASE", async () => {
 	const app = createServer();
+
+	const msg = "make this message upper!";
+
+	const expected = msg.toUpperCase();
 
 	const response = await app.inject({
 		method: "POST",
 		url: "/chat",
 		body: {
-			question: "What is the meaning of life?"
+			question: msg
 		}
 	});
 
 	assert.equal(response.statusCode, 200);
+	assert.equal(response.body, expected);
 });

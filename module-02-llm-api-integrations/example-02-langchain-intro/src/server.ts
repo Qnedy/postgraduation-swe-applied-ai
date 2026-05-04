@@ -1,5 +1,10 @@
 import Fastify from "fastify";
 
+import { buildGraph } from "./graph/graph.ts";
+import { HumanMessage } from "langchain";
+
+const graph = buildGraph();
+
 export const createServer = () => {
 	const app = Fastify({ logger: false });
 
@@ -20,7 +25,11 @@ export const createServer = () => {
 		try {
 			const { question } = await request.body as { question: string };
 
-			return reply.send("Ok");
+			const response = await graph.invoke({
+				messages: [new HumanMessage(question)]
+			});
+
+			return reply.send(response.output);
 			
 		}catch(error) {
 			console.error("Error processing request:", error);
